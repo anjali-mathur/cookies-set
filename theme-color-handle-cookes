@@ -1,0 +1,31 @@
+
+           <div class="dark_light">
+<span class="dark_mode"></span>
+ <span class="light_mode">
+</span>
+</div>
+
+$(document).ready(function(){
+  $(".dark_mode").click(function(){
+    $("body").removeClass("light_site");
+    $("body").addClass("dark_site");
+    if(typeof(Storage) !== "undefined") {
+            localStorage.setItem("color", $('body').attr('class'));
+        }
+  });
+   $(document).ready(function(){
+
+    if(typeof(Storage) !== "undefined" && localStorage.getItem("color") !='') {
+        $('body').attr('class','');
+        $('body').attr('class', localStorage.getItem("color"));
+    }
+    });
+  
+  $(".light_mode").click(function(){
+    $("body").removeClass("dark_site");
+     $("body").addClass("light_site");
+     if(typeof(Storage) !== "undefined") {
+            localStorage.setItem("color", $('body').attr('class'));
+        }
+   });
+});
