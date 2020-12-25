@@ -1,0 +1,65 @@
+#jaha se cookies aagyegi create hogi
+<script>
+  $(document).ready(function(){
+    $('#customer_login').submit(function(){
+      sessionStorage.setItem("commingFromLogedin", "Yes");
+    });
+  });
+</script>
+
+
+jaha usko handle krna h
+  <div id="itsACustomeTag" data-customer-id="{{ customer.id }}" data-customer-tag="{% for customeTag in customer.tags %}{{ customeTag }}###{% endfor %}" style ="display:none;"></div>
+
+<label class="custom_check_two indivdual-complete-btn"> 
+  <input data-tag="customerlogin_1" class="_jsSubmitPlan" type="checkbox" name="customer[first_month][]" id="free_trial">
+  <span class="checkmark_two"> login tag </span>
+</label> 
+
+
+<script>  
+  $(document).ready(function() {
+   
+    if(sessionStorage.getItem("commingFromLogedin")=='Yes')
+    {
+        setTimeout(function() {
+            $("._jsSubmitPlan").trigger('click');
+        },5);
+       sessionStorage.setItem("commingFromLogedin", "No");
+    }
+   
+    $('._jsSubmitPlan').css('display','none');
+	$('.custom_check_two').css('display','none');
+    
+    $(document).on('click' , '._jsSubmitPlan', function(e){
+       var newTag  =  $(this).data('tag');	
+       var preTag  =  $('#itsACustomeTag').data('customer-tag');
+       var id      =  $('#itsACustomeTag').data('customer-id');
+       var email = "{{customer.email}}";
+       
+       //alert('rfrefref');
+              
+       $('body').addClass('_jsLoader1');
+       $.ajax({
+         url: 'https://app.upl.marketing/embodyment/embodymentupdateloginTag.php',
+         type: 'post',
+        data:{ newTag: newTag,preTag: preTag,id: id},
+         success: function (data) {
+           console.log(data);
+           
+           $('body').removeClass('_jsLoader1');
+           var $data = JSON.parse(data);
+           if($data.flag  ==  true ){
+           }else{
+             $('body').removeClass('_jsLoader1');
+            alert('Please try again later.');
+           }  
+         },
+        error:function(e){
+          $('body').removeClass('_jsLoader1');
+          alert('Please try again later.');
+        }
+       });
+		});
+  });
+</script>
